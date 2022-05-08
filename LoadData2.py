@@ -31,17 +31,19 @@ def genderLoadFn(entry, labels):
 def ageLoadFn(entry):
 	return entry['AgeInMonths']/12
 
-def loadNbackEmoidIdsScansAndGenders(meta):
+def loadNbackEmoidScansAgesAndGenders(meta):
 	incFn = lambda key, entry: allScansIncFn(entry, ['nback','emoid'])
 	kLoadFn = lambda key, entry: key
 	nLoadFn = lambda key, entry: scanLoadFn(entry, 'nback')
 	eLoadFn = lambda key, entry: scanLoadFn(entry, 'emoid')
 	gLoadFn = lambda key, entry: genderLoadFn(entry, {'M':0, 'F':1})
+	aLoadFn = lambda key, entry: ageLoadFn(entry)
 	keys = loadFromMeta(meta, incFn, kLoadFn)
 	nback = loadFromMeta(meta, incFn, nLoadFn)
 	emoid = loadFromMeta(meta, incFn, eLoadFn)
 	genders = loadFromMeta(meta, incFn, gLoadFn)
-	return keys, np.stack(nback), np.stack(emoid), np.array(genders, dtype='long')
+	ages = loadFromMeta(meta, incFn, aLoadFn)
+	return keys, np.stack(nback), np.stack(emoid), np.array(genders, dtype='long'), np.array(ages)
 
 def loadNbackEmoidScansAndAges(meta):
 	incFn = lambda key, entry: allScansIncFn(entry, ['nback','emoid'])

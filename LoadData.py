@@ -1,4 +1,4 @@
-from nilearn import ConnectivityMeasure
+from nilearn.connectome import ConnectivityMeasure
 import pickle
 import functools
 import numpy as np
